@@ -1,0 +1,66 @@
+homeassistant:
+
+  customize:
+    climate.mkf0044800:
+      friendly_name: Wohnzimmer Thermostat
+
+    climate.mkf0048682:
+      friendly_name: Heizung Küche
+
+    climate.leq1129736:
+      friendly_name: Heizung Wohnzimmer
+
+    climate.leq1129219:
+      friendly_name: Heizung Schlafzimmer
+
+    climate.leq1124338:
+      friendly_name: Heizung Badezimmer
+
+    binary_sensor.jre0014298_state:
+      friendly_name: Fenster Schlafzimmer
+
+    binary_sensor.jre0013698_state:
+      friendly_name: Fenster Wohnzimmer
+
+    sensor.Sonoff_Hum:
+      friendly_name: Luftfeuchtigkeit
+
+    sensor.Sonoff_Temp:
+      friendly_name: Temperatur
+
+sensor:
+  - platform: mqtt
+    name: "Sonoff Temp"
+    state_topic: "sonoff/tele/SENSOR"
+    value_template: "{{ value_json.Temperature | float -2 }}"
+    unit_of_measurement: "°C"
+  - platform: mqtt
+    name: "Sonoff Hum"
+    state_topic: "sonoff/tele/SENSOR"
+    value_template: "{{ value_json.Humidity }}"
+    unit_of_measurement: "%"
+
+group:
+  climate:
+    name: Temperaturen
+    icon: mdi:thermometer-lines
+    entities:
+      - input_select.heatingprofile
+      - climate.mkf0044800
+      - climate.mkf0048682
+      - climate.leq1129736
+      - climate.leq1129219
+      - climate.leq1124338
+
+input_select:
+  heatingprofile:
+    name: Heizprofiel
+    options:
+    - Anwesend
+    - Abwesend
+    - Nachtmodus
+    - Aufwärmen
+    - Party
+    - Urlaub
+    initial: Anwesend
+    icon: mdi:cards

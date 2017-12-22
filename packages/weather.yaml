@@ -1,0 +1,32 @@
+homeassistant:
+  customize:
+    sensors.wetter_temperature:
+      friendly_name: Temperatur
+
+    sensor.wetter_fog:
+      friendly_name: Nebel
+      icon: mdi:weather-fog
+
+    sensor.wetter_humidity:
+      friendly_name: Luftfeuchtigkeit
+      icon: mdi:water-percent
+
+    sensor.wetter_cloudiness:
+      friendly_name: Bewölkt
+      icon: mdi:weather-partlycloudy
+
+    sensor.wetter_windSpeed:
+      friendly_name: Windgeschwindigkeit
+      icon: mdi:weather-windy
+
+group:
+  weather:
+    name: Weather
+    entities:
+      - sun.sun
+      - sensor.wetter_summary
+      - sensor.wetter_temperature
+      - sensor.wetter_cloudiness
+      - sensor.wetter_fog
+      - sensor.wetter_dewpointTemperature
+      - sensor.wetter_humidity

@@ -1,0 +1,11 @@
+- platform: gpslogger
+
+- platform: fritz
+  host: !secret fritzbox_ip
+  username: !secret fritzbox_username
+  password: !secret fritzbox_password
+  interval_second: 30
+  consider_home: 180
+  new_device_defaults:
+    track_new_devices: false
+    hide_if_away: false

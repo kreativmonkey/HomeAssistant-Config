@@ -1,0 +1,25 @@
+- name: Home
+  latitude: !secret home_lat
+  longitude: !secret home_long
+  radius: 100
+  icon: mdi:account-multiple
+- name: Work Sebastian
+  latitude: !secret work_sebastian_lat
+  longitude: !secret work_sebastian_long
+  radius: 500
+  icon: mdi:worker
+- name: Work Nicole
+  latitude: !secret work_nicole_lat
+  longitude: !secret work_nicole_long
+  radius: 200
+  icon: mdi:worker
+- name: Shopping Mehlem
+  latitude: 50.6677067
+  longitude: 7.1805742
+  radius: 350
+  icon: mdi:cart
+- name: Shopping Wachtberg
+  latitude: 50.6227155
+  longitude: 7.124773
+  radius: 500
+  icon: mdi:cart

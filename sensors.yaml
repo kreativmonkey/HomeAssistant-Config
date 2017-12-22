@@ -1,0 +1,25 @@
+############################
+# Include Sensors
+############################
+
+- platform: yr
+  name: Wetter
+  forecast: 24
+  monitored_conditions:
+    - temperature
+    - symbol
+    - precipitation
+    - windSpeed
+    - pressure
+    - humidity
+    - fog
+    - cloudiness
+    - dewpointTemperature
+
+- platform: template
+  sensors:
+    keller_temp:
+      friendly_name: Temperatur Keller
+      entity_id: switch.waschaschine
+      unit_of_measurement: '°C'
+      value_template: "{{ states.switch.waschmaschine.attributes.temperature }}"

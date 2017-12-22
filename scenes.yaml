@@ -1,0 +1,63 @@
+##########################################
+# Temperatur Einstellungen
+##########################################
+- name: Temp_nightmode
+  entities:
+    climate.leq1124338: # Badezimmer
+      temperature: 18.5
+    climate.leq1129219: # Schlafzimmer
+      temperature: 18.5
+    climate.leq1129736: # Wohnzimmer
+      temperature: 18.5
+    climate.mkf0048682: # Küche
+      temperature: 18.5
+    climate.mkf0044800: # Wandthermostat
+      temperature: 18.5
+- name: Temp_anwesend
+  entities:
+    climate.leq1124338: # Badezimmer
+      temperature: 20
+    climate.leq1129219: # Schlafzimmer
+      temperature: 19
+    climate.leq1129736: # Wohnzimmer
+      temperature: 21
+    climate.mkf0048682: # Küche
+      temperature: 21
+    climate.mkf0044800: # Wandthermostat
+      temperature: 21
+- name: Temp_abwesend
+  entities:
+    climate.leq1124338: # Badezimmer
+      temperature: 18.5
+    climate.leq1129736: # Wohnzimmer
+      temperature: 18.5
+    climate.mkf0048682: # Küche
+      temperature: 18.5
+    climate.leq1129219: # Schlafzimmer
+      temperature: 18.5
+    climate.mkf0044800: # Wandthermostat
+      temperature: 18.5
+- name: Temp_urlaub
+  entities:
+    climate.leq1124338: # Badezimmer
+      temperature: 16
+    climate.leq1129736: # Wohnzimmer
+      temperature: 16
+    climate.mkf0048682: # Küche
+      temperature: 16
+    climate.leq1129219: # Schlafzimmer
+      temperature: 16
+    climate.mkf0044800: # Wandthermostat
+      temperature: 16
+- name: Temp_aufwaermen
+  entities:
+    climate.leq1124338:
+      temperature: 24
+    climate.leq1129736: # Wohnzimmer
+      temperature: 24
+    climate.mkf0048682: # Küche
+      temperature: 24
+    climate.leq1129219: # Schlafzimmer
+      temperature: 24
+    climate.mkf0044800: # Wandthermostat
+      temperature: 24

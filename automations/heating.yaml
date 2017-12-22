@@ -1,0 +1,180 @@
+######################################
+# Heizung
+######################################
+- alias: Heizprofiel einstellen
+
+  trigger:
+    platform: state
+    entity_id: input_select.heatingprofile
+
+  action:
+    service: scene.turn_on
+    data_template:
+      entity_id: >
+          {% if is_state("input_select.heatingprofile", "Anwesend") %}
+            scene.Temp_anwesend
+          {%-elif is_state("input_select.heatingprofile", "Abwesend") %}
+            scene.Temp_abwesend
+          {%-elif is_state("input_select.heatingprofile", "Nachtmodus") %}
+            scene.Temp_nightmode
+          {%-elif is_state("input_select.heatingprofile", "Party") %}
+            scene.Temp_anwesend
+          {%-elif is_state("input_select.heatingprofile", "Urlaub") %}
+            scene.Temp_urlaub
+          {%-elif is_state("input_select.heatingprofile", "Aufwärmen") %}
+            scene.Temp_aufwaermen
+          {% endif %}
+
+  #######################################
+  # Bei Abwesenheit die Heizung runter fahren
+  #######################################
+- alias: "Temperatur Abwesend"
+
+  trigger:
+    platform: state
+    entity_id: input_boolean.mode_away
+    from: 'off'
+    to: 'on'
+
+  condition:
+    condition: numeric_state
+    entity_id: sensor.wetter_temperature
+    below: 17
+
+  action:
+    service: scene.turn_on
+    entity_id: scene.Temp_abwesend
+
+  ##############################################
+  # Nächtliche Temperatur absenken auf 18.5°C
+  ##############################################
+- alias: "Temperatur Nachtabsenkung"
+
+  trigger:
+    - platform: time
+      at: '22:30'
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      from: 'off'
+      to: 'on'
+
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.mode_home
+        state: 'on'
+
+  action:
+    service: scene.turn_on
+    entity_id: scene.Temp_nightmode
+
+  ############################################
+  # Morgens und Abends das Bad aufheizen auf 21°C
+  ############################################
+- alias: "Badezimmer Wärmen"
+  trigger:
+    - platform: time
+      at: '06:00'
+    - platform: sun
+      event: sunset
+
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: numeric_state
+        entity_id: sensor.wetter_temperature
+        below: 10
+      - condition: state
+        entity_id: group.family
+        state: 'home'
+
+  action:
+    service: climate.set_temperature
+    entity_id:
+      - climate.leq1124338
+    data:
+      temperature: 21
+
+  ####################################################
+  # Wenn die Temperatur unter 18°C singt und jemand zuhasue ist
+  # dann setze die Heizkörper auf die Tagestemperatur Anwesend
+  ####################################################
+- alias: "Temperatur Tag Anwesend"
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: '-00:45:00'
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      from: 'on'
+      to: 'off'
+
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: sensor.wetter_temperature
+        below: 17
+      - condition: state
+        entity_id: group.family
+        state: 'home'
+
+  action:
+    service: scene.turn_on
+    entity_id: scene.Temp_anwesend
+
+  ################################################
+  # Wenn jemand nach Hause kommt dann auf wohlfühltemperatur
+  ################################################
+- alias: "Temperatur Come Home"
+
+  trigger:
+    platform: state
+    entity_id: input_boolean.mode_home
+    from: 'off'
+    to: 'on'
+
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: sensor.wetter_temperature
+        below: 17
+      - condition: sun
+        after: sunrise
+      - condition: time
+        before: '22:00'
+
+  action:
+    service: scene.turn_on
+    entity_id: scene.Temp_anwesend
+
+  ################################################
+  # Urlaubstemperatur einstellen
+  ################################################
+- alias: "Urlaubstemeratur einstellen"
+
+  trigger:
+    platform: state
+    entity_id: input_boolean.mode_vecation
+    from: 'off'
+    to: 'on'
+
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: sensor.wetter_temperature
+        below: 17
+
+  action:
+    service: scene.turn_on
+    entity_id: scene.Temp_urlaub

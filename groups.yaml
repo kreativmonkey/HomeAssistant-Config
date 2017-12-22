@@ -1,0 +1,58 @@
+###########################################
+# Shown views
+###########################################
+default_view:
+  name: Home
+  icon: mdi:home
+  view: yes
+  entities:
+    - group.weather
+    - group.climate
+    - group.family
+    - group.set_modes
+    - group.power
+    - sensor.yr_symbol
+    - sun.sun
+    - group.mediaplayer
+    - binary_sensor.jre0013698_state
+    - binary_sensor.jre0014298_state
+
+overview:
+  name: Übersicht
+  view: yes
+  icon: mdi:hexagon-multiple
+  entities:
+    - group.all_devices
+    - group.all_switches
+    - group.all_automations
+    - group.all_scenes
+
+
+################################################
+# Small views
+################################################
+family:
+  name: Familie
+  view: no
+  entities:
+    - device_tracker.sebastian
+    - device_tracker.nicole
+
+mediaplayer:
+  name: mediaplayer
+  entities:
+    - media_player.livingcast
+
+power:
+  name: Steckdosen
+  view: no
+  entities:
+    - switch.waschmaschine
+
+set_modes:
+  name: Haus Profiel
+  entities:
+    - input_boolean.mode_home
+    - input_boolean.mode_away
+    - input_boolean.mode_sleep
+    - input_boolean.mode_vecation

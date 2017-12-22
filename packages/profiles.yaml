@@ -1,0 +1,33 @@
+input_boolean:
+  mode_home:
+    name: Anwesend
+    initial: off
+    icon: mdi:home
+
+  mode_away:
+    name: Abwesend
+    initial: off
+    icon: mdi:tram
+
+  mode_sleep:
+    name: Gutenacht
+    initial: off
+    icon: mdi:sleep
+
+  mode_vecation:
+    name: Urlaubsmodus
+    initial: off
+    icon: mdi:airplane-takeoff
+
+  disable_home_away:
+    name: Wechsel Anwesend-Abwesend ausschalten
+    initial: off
+    icon: mdi:switch
+
+#######################################
+# Setting the Profiles for different
+# actions.
+#
+#######################################
+#######################################
+#######################################

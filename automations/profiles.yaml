@@ -1,0 +1,127 @@
+  ############################################
+  # Come Home
+  ############################################
+- alias: Set profile to home
+  trigger:
+    - platform: state
+      entity_id: group.family
+      from: 'not_home'
+      to: 'home'
+    - platform: state
+      entity_id: input_boolean
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_home_away
+      state: 'off'
+  action:
+    - service: homeassistant.turn_off
+      entity_id:
+        - input_boolean.mode_away
+        - input_boolean.mode_vecation
+    - condition: state
+      entity_id: input_boolean.mode_home
+      state: 'off'
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.mode_home
+
+  ############################################
+  # Leave home
+  ############################################
+- alias: Set profile to away
+
+  trigger:
+    - platform: state
+      entity_id: group.family
+      from: 'home'
+      to: 'not_home'
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.disable_home_away
+      state: 'off'
+
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.mode_away
+    - service: homeassistant.turn_off
+      entity_id:
+        - input_boolean.mode_home
+        - input_boolean.mode_sleep
+
+  #############################################
+  # Turn into the sleeping mode
+  #############################################
+- alias: Schlafmodus aktivieren
+
+  trigger:
+    - platform: state
+      entity_id: group.family
+      from: 'not_home'
+      to: 'home'
+    - platform: time
+      at: '22:30'
+
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - sun
+      - condition: state
+        entity_id: group.family
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.mode_away
+        state: 'off'
+      - condition: time
+        after: '22:29'
+
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.mode_sleep
+
+- alias: Schlafmodus deaktivieren
+
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: '-00:45:00'
+
+  condition:
+    condition: state
+    entity_id: input_boolean.mode_sleep
+    state: 'on'
+
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.mode_sleep
+
+  #############################################
+  # Turn into Vecation mode after time away
+  #############################################
+- alias: Automatic Vacation mode after 24 hours
+
+  trigger:
+    - platform: state
+      entity_id: group.family
+      from: 'home'
+      to: 'not_home'
+      for:
+        hours: 24
+        minutes: 0
+        seconds: 0
+
+  condition:
+    - condition: state
+      entity_id: intput_boolean.disable_home_away
+      state: 'off'
+
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.mode_vecation

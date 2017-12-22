@@ -1,0 +1,4 @@
+- platform: fritzdect
+  username: !secret fritzbox_username
+  password: !secret fritzbox_password
+  host: !secret fritzbox_ip
