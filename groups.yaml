@@ -50,7 +50,7 @@ power:
     - switch.waschmaschine
 
 set_modes:
-  name: Haus Profiel
+  name: Profile
   entities:
     - input_boolean.mode_home
     - input_boolean.mode_away
