@@ -160,3 +160,21 @@ pc1921685150:
   picture:
   track: true
   vendor: VEB KOMBINAT ROBOTRON
+
+bulido_2:
+  hide_if_away: false
+  icon:
+  mac: C0:4A:00:26:89:EF
+  name: Bulido
+  picture:
+  track: true
+  vendor: TP-LINK TECHNOLOGIES CO.,LTD.
+
+tt030008:
+  hide_if_away: false
+  icon:
+  mac: AC:FD:CE:F6:49:42
+  name: TT-030008
+  picture:
+  track: true
+  vendor: Intel Corporate
