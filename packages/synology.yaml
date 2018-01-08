@@ -1,16 +1,16 @@
-#homeassistant:
+homeassistant:
 
-#sensor:
-#  - platform: synologydsm
-#    host: !secret nas_host
-#    port: !secret nas_port
-#    username: !secret nas_user
-#    password: !secret nas_password
-#    monitored_conditions:
-#        - cpu_total_load
-#      - cpu_5min_load
-#      - memory_real_usage
-#      - network_up
-#      - network_down
-#      - disk_smart_status
-#      - disk_temp
+sensor:
+  - platform: synologydsm
+    host: !secret nas_host
+    port: !secret nas_port
+    username: !secret nas_user
+    password: !secret nas_password
+    monitored_conditions:
+      - cpu_total_load
+      - cpu_5min_load
+      - memory_real_usage
+      - network_up
+      - network_down
+      - disk_smart_status
+      - disk_temp

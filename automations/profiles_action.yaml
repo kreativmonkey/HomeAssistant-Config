@@ -1,6 +1,6 @@
-  ############################################
-  # Come Home
-  ############################################
+######################################
+# Come Home
+######################################
 - alias: Set profile to home
   trigger:
     - platform: state
@@ -8,7 +8,7 @@
       from: 'not_home'
       to: 'home'
     - platform: state
-      entity_id: input_boolean
+      entity_id: input_boolean.mode_home
       from: 'off'
       to: 'on'
   condition:
@@ -19,16 +19,16 @@
     - service: homeassistant.turn_off
       entity_id:
         - input_boolean.mode_away
-        - input_boolean.mode_vecation
+        - input_boolean.mode_vencation
     - condition: state
       entity_id: input_boolean.mode_home
       state: 'off'
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_home
 
-  ############################################
-  # Leave home
-  ############################################
+############################################
+# Leave home
+############################################
 - alias: Set profile to away
 
   trigger:
@@ -36,7 +36,10 @@
       entity_id: group.family
       from: 'home'
       to: 'not_home'
-
+    - platform: state
+      entity_id: input_boolean.mode_away
+      from: 'off'
+      to: 'on'
   condition:
     - condition: state
       entity_id: input_boolean.disable_home_away
@@ -50,9 +53,9 @@
         - input_boolean.mode_home
         - input_boolean.mode_sleep
 
-  #############################################
-  # Turn into the sleeping mode
-  #############################################
+#############################################
+# Turn into the sleeping mode
+#############################################
 - alias: Schlafmodus aktivieren
 
   trigger:
@@ -62,7 +65,10 @@
       to: 'home'
     - platform: time
       at: '22:30'
-
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      from: 'off'
+      to: 'on'
   condition:
     condition: and
     conditions:
@@ -82,9 +88,9 @@
       - condition: time
         after: '22:29'
 
-    action:
-      - service: homeassistant.turn_on
-        entity_id: input_boolean.mode_sleep
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.mode_sleep
 
 - alias: Schlafmodus deaktivieren
 
@@ -102,9 +108,9 @@
     - service: homeassistant.turn_off
       entity_id: input_boolean.mode_sleep
 
-  #############################################
-  # Turn into Vecation mode after time away
-  #############################################
+#######################################
+# Turn into Vacation mode after 24 hours left home
+#######################################
 - alias: Automatic Vacation mode after 24 hours
 
   trigger:
@@ -125,3 +131,18 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_vecation
+
+- alias: Turn on Vecation mode
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_vecation
+      from: 'off'
+      to: 'on'
+
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.mode_away
+    - service: homeassistant.turn_off
+      entity_id:
+        - input_boolean.mode_home
+        - input_boolean.mode_sleep
